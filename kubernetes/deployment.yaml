@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: index-page
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: index-page
+  template:
+    metadata:
+      labels:
+        app: index-page
+    spec:
+      containers:
+        - name: index-container
+          image: index-page:latest
+          ports:
+            - containerPort: 80
+

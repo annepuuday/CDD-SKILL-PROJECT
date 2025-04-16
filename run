@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo "🔧 Step 1: Building Docker image..."
+docker build -t index-page .
+
+echo "📦 Step 2: Running Ansible playbook..."
+ansible-playbook -i ansible/inventory ansible/playbook.yml
+
+echo "🧹 Step 3: Removing any existing container named index-container..."
+docker rm -f index-container >/dev/null 2>&1
+
+echo "🐳 Step 4: Running Docker container on port 8080..."
+docker run -d -p 8080:80 --name index-container index-page
+
+echo "🌍 Step 5: Opening in browser..."
+
+# For macOS, use open
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  open http://localhost:8080
+# For Linux
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  xdg-open http://localhost:8080
+# For Windows Git Bash
+elif [[ "$OSTYPE" == "msys" ]]; then
+  start http://localhost:8080
+fi
+

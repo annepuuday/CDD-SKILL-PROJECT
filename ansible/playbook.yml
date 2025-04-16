@@ -1,0 +1,11 @@
+- name: Deploy index page container
+  hosts: web
+  tasks:
+    - name: Run Docker container
+      docker_container:
+        name: index-container
+        image: index-page:latest
+        state: started
+        ports:
+          - "8080:80"
+
